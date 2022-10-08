@@ -1,0 +1,69 @@
+#include<iostream>
+using namespace std;
+
+class String {
+public:
+	String() { p = NULL; }
+	String(const char* str):p(str){}
+	void display();
+	friend bool operator<(String s1,String s2);
+	friend bool operator>(String s1, String s2);
+	bool operator==(String s1);
+private:
+	const char* p;
+};
+
+void String:: display() {
+	cout << p;
+}
+
+bool operator<(String s1, String s2){
+	if (strcmp(s1.p, s2.p) < 0) {
+		return true;
+	}
+	else
+		return false;
+}
+
+bool operator>(String s1, String s2) {
+	if (strcmp(s1.p, s2.p) > 0) {
+		return true;
+	}
+	else
+		return false;
+}
+
+bool String::operator==(String s1) {
+	if (strcmp(p, s1.p) == 0) {
+		return true;
+	}
+	else
+		return false;
+}
+
+void compare(String s1, String s2) {
+	if (operator<(s1, s2) == 1) {
+		s1.display();
+		cout << "<";
+		s2.display();
+	}
+	if (operator>(s1, s2) == 1) {
+		s1.display();
+		cout << ">";
+		s2.display();
+	}
+	if (s1.operator==(s2) == 1) {
+		s1.display();
+		cout << "=";
+		s2.display();
+	}
+}
+
+int main() {
+	String s1("hello"), s2("hellp"), s3("world"), s4("!world");
+	compare(s1, s2);
+	cout << endl;
+	compare(s3, s4);
+	cout << endl;
+	return 0;
+}
