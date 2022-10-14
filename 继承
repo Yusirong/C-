@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+class Player {
+private:
+	string name;
+	int age;
+	float height;
+	int grade;
+public:
+	void display_basic_info();
+	void set_basic_info();
+};
+
+void Player::display_basic_info() {
+	cout << "Basic info:" << endl << "Name:" << name << endl << "Age:" << age << endl << "Height:" << height << endl << "Grade:" << grade << endl;
+}
+
+void Player::set_basic_info() {
+	cout << "Input basic info1 of player:" << endl;
+	cin >> name >> age >> height >> grade;
+}
+
+class SoccerPlayer :public Player {
+public:
+	void display();
+	void set();
+private:
+	string club;
+	string place;
+};
+
+void SoccerPlayer::display() {
+	display_basic_info();
+	cout << "Club:" << club << endl << "Place:" << place << endl ;
+}
+
+void SoccerPlayer::set() {
+	set_basic_info();
+	cout << "Input basic info2 of player:" << endl;
+	cin >> club >> place;
+}
+int main() {
+	SoccerPlayer sp;
+	sp.set();
+	sp.display();
+	return 0;
+}
