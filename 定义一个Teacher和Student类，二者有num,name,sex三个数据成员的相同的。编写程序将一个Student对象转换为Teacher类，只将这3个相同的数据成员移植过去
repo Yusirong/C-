@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<string>
+using namespace std;
+
+class Student{
+public:
+	Student(int n, const char nam[10], const char s[7], int a) {
+		num = n;
+		strcpy(name, nam);
+		strcpy(sex, s);	
+		age=a;
+	}
+	int get_num() {
+		return num;
+	}
+	char* get_name() {
+		return name;
+	}
+	char* get_sex() {
+		return sex;
+	}
+	void display() {
+		cout << "Student's info:" << endl << "Num:" << num << endl << "Name:" << name << endl << "Sex:" << sex << endl << "Age:" << age << endl;
+	}
+private:
+	int num;
+	char name[10];
+	char sex[7];
+	int age;
+};
+
+class Teacher {
+public:
+	Teacher(){}
+	Teacher(Student&);
+	Teacher(int n,const char nam[10], const char s[7], int sa) {
+	num = n;
+	strcpy(name, nam);
+	strcpy(sex, s);
+	salary = sa;
+	}
+	void display();
+private:
+	int num;
+	char name[10];
+	char sex[7];
+	int salary = 1000;
+};
+
+Teacher::Teacher(Student& s) {
+	num = s.get_num();
+	strcpy(name, s.get_name());
+	strcpy(sex, s.get_sex());
+}
+
+void Teacher::display() {
+	cout << "Teacher's info:" << endl << "Num:" << num << endl << "Name:" << name << endl << "Sex:" << sex << endl << "Salary:" << salary << endl;
+}
+
+int main() {
+	Student s(123456, "Zhang", "female", 18);
+	s.display();
+	cout << endl;
+	Teacher t = Teacher(s);
+	t.display();
+	return 0;
+}
