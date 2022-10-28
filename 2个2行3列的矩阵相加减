@@ -1,0 +1,77 @@
+#include<iostream>
+using namespace std;
+
+class Matrix {
+public:
+	Matrix(){
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 3; j++) {
+				mat[i][j] = 0;
+			}
+		}
+	}
+	Matrix operator+(Matrix&);
+	Matrix operator-(Matrix&);
+	friend istream& operator>>(istream&, Matrix&);
+	friend ostream& operator<<(ostream&, Matrix&);
+private:
+	int mat[2][3];
+};
+
+Matrix Matrix ::operator+(Matrix& m) {
+	int i, j;
+	Matrix r;
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 3; j++) {
+			r.mat[i][j] = mat[i][j]+ m.mat[i][j];
+		}
+	}
+	return r;
+}
+
+Matrix Matrix ::operator-(Matrix& m) {
+	int i, j;
+	Matrix r;
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 3; j++) {
+			r.mat[i][j] = mat[i][j]- m.mat[i][j];
+		}
+	}
+	return r;
+}
+
+istream& operator>>(istream& input, Matrix& m) {
+	int i, j;
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 3; j++) {
+			input >> m.mat[i][j];
+		}
+	}
+	return input;
+}
+
+ostream& operator<<(ostream& output, Matrix& m) {
+	int i, j;
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 3; j++) {
+			output << m.mat[i][j] << '\t';
+		}
+		output << endl;
+	}
+	return output;
+}
+int main() {
+	Matrix a[2][3], b[2][3], c[2][3];
+	cout << "please enter Matrix a:" << endl;
+	cin >> a[2][3];
+	cout << "please enter Matrix b:" << endl;
+	cin >> b[2][3];
+	cout << a[2][3] << endl << b[2][3] << endl;
+	c[2][3] = a[2][3] + b[2][3];
+	cout << "a+b:" << endl;
+	cout << c[2][3] << endl;
+	c[2][3] = a[2][3] - b[2][3];
+	cout << "a-b:" << endl;
+	cout << c[2][3] << endl;
+	return 0;
+}
