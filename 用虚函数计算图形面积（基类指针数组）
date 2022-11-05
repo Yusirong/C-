@@ -1,0 +1,73 @@
+#include<iostream>
+#include<string>
+#define pi 3.14
+using namespace std;
+
+class Shape {
+public:
+	virtual void printArea() {}
+};
+
+class Circle :public Shape {
+public:
+	Circle(float r1):r(r1){}
+	void printArea() { cout << "Circle'S:" << pi * r * r << endl; }
+protected:
+	float r;
+};
+
+class Rectangle :public Shape {
+public:
+	Rectangle(float a, float b):x(a),y(b){}
+	void printArea() { cout << "Rectangle'S:" << x * y << endl; }
+private:
+	float x;
+	float y;
+};
+
+class Triangle :public Shape {
+public:
+	Triangle(float a, float b):l(a),h(b) {}
+	void printArea() { cout << "Triangle'S:" << (l * h) / 2 << endl; }
+private:
+	float l;
+	float h;
+};
+
+class Trapezoid :public Shape {
+public:
+	Trapezoid(float a,float b,float c):s(a),x(b),h(c){}
+	void printArea() { cout << "Trapezoid'S:" << ((s + x) * h) / 2 << endl; }
+private:
+	float s;
+	float x;
+	float h;
+};
+
+class Square :public Shape {
+public:
+	Square(float a):l(a){}
+	void printArea() { cout << "Square'S:" << l * l << endl; }
+private:
+	float l;
+};
+
+int main() {
+	Circle c(2.1);
+	Rectangle r(2, 3);
+	Triangle t(2, 3);
+	Trapezoid ti(2, 3, 1);
+	Square s(2);
+	Shape* p;
+	p = &c;
+	p->printArea();
+	p = &r;
+	p->printArea();
+	p = &t;
+	p->printArea();
+	p = &ti;
+	p->printArea();
+	p = &s;
+	p->printArea();
+	return 0;
+}
