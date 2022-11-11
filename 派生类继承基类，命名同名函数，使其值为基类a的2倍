@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+
+class A {
+public:
+	A(){}
+	A(int x,int y):a(x),b(y){}
+	virtual int getA() {
+		return a;
+	}
+	int getB() {
+		return b;
+	}
+private:
+	int a;
+	int b;
+};
+
+class B :public A {
+public:
+	B(A val):A(val.getA(), val.getB()) {}
+	int getA() {
+		return 2 * A::getA();
+	}
+};
+
+int main() {
+	A* pa;
+	A a(2, 2);
+	B b(a);
+	pa = &a;
+	cout << "A::getA=" << pa->getA() << endl;
+	pa = &b;
+	cout << "B::getA=" << pa->getA() << endl;
+	cout << "sizeof A=" << sizeof(a) << endl;
+	cout << "sizeof B=" << sizeof(b) << endl;
+	return 0;
+}
