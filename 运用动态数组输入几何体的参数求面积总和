@@ -1,0 +1,84 @@
+#include<iostream>
+#include <math.h>
+using namespace std;
+const float PI = 3.14;
+
+class Shape {
+protected:
+	float area;
+public:
+	Shape() {}
+	float virtual computeArea() = 0;
+};
+
+class Circle :public Shape {
+private:
+	float radius;
+public:
+	Circle(float r) :radius(r) { }
+	float computeArea()
+	{
+		area = PI * pow(radius, 2);
+		return area;
+	}
+};
+
+class Square :public Shape {
+private:
+	float side_length;
+public:
+	Square(float l) :side_length(l) {}
+	float computeArea() {
+		area = side_length * side_length;
+		return area;
+	}
+};
+
+class Rectangle :public Shape {
+private:
+	float width;
+	float length;
+public:
+	Rectangle(float w, float l) :width(w), length(l) {}
+	float computeArea() {
+		area = width * length;
+		return area;
+	}
+};
+
+int main() {
+	int num;
+	cout << "请输入几何体的总数" << endl;
+	cin >> num;
+	Shape** shapes = new Shape*[num];
+	float total_S = 0.0;
+	for (int i = 1; i <= num; i++) {
+		int type;
+		cout << "请输入第" << i << "个几何体的类型:0圆形，1正方形，2长方形" << endl;
+		cin >> type;
+		if (type == 0) {
+			float r;
+			cout << "请输入圆的半径" << endl;
+			cin >> r;
+			Circle c(r);
+			shapes[i] = &c;
+		}
+		else if (type == 1) {
+			float l;
+			cout << "请输入正方形的边长" << endl;
+			cin >> l;
+			Square s(l);
+			shapes[i] = &s;
+		}
+		else if (type == 2) {
+			float w, l;
+			cout << "请输入长方形的长和宽" << endl;
+			cin >> l >> w;
+			Rectangle r(l, w);
+			shapes[i] = &r;
+		}
+		total_S += shapes[i]->computeArea();
+		cout << "总面积为" << total_S << endl;
+	}
+	return 0;
+}
