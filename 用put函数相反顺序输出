@@ -1,0 +1,11 @@
+#include<iostream>
+using namespace std;
+
+int main(){
+  char* a=(char*)"C+=";
+  for(int i=2;i>=0;i--){
+    cout.put(*(a+i));
+  }
+  cout.put('\n');
+  return 0;
+}
