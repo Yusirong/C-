@@ -1,0 +1,47 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+
+class Player {
+public:
+	int number;
+	string name;
+	int age;
+	Player(){}
+	Player(int n,string nam,int a):number(n),name(nam),age(a){}
+	void display() {
+		cout << "number:" << number << endl;
+		cout << "name:" << name << endl;
+		cout << "age:" << age << endl;
+	}
+	friend fstream& operator<<(fstream& fout, Player& p);
+	friend fstream& operator>>(fstream& fin, Player& p);
+};
+fstream& operator<<(fstream& fout, Player& p) {
+	fout << p.number << "\t" << p.name << "\t" << p.age << endl;
+	return fout;
+}
+fstream& operator>>(fstream& fin, Player& p) {
+	fin >> p.number;
+	fin.get();
+	fin >> p.name;
+	fin.get();
+	fin >> p.age;
+	fin.get();
+	return fin;
+}
+int main(){
+	Player p1(1, "Li", 18);
+	fstream fs;
+	fs.open("filel.txt", ios::out);
+	fs << p1;
+	fs.close();
+
+	Player p2;
+	fs.open("filel.txt", ios::in);
+	fs >> p2;
+	fs.close();
+	p2.display();
+	return 0;
+}
