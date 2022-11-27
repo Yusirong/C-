@@ -1,0 +1,18 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+int main() {
+	char c1, c2;
+	fstream fs, out;
+	fs.open("file1.txt", ios::in);
+	out.open("file2.txt", ios::out);
+	while (fs.get(c1)) {
+		c2 = c1 - 32;
+		cout << c2;
+		out.write((char*)&c2, sizeof(c2));
+	}
+	fs.close();
+	out.close();
+	return 0;
+}
