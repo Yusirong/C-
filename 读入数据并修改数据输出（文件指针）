@@ -1,0 +1,44 @@
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+struct Player {
+	int number;
+	char name[50];
+	int age;
+}；
+int main() {
+	Player pla[3] = { 1,"Li",17,2,"Yu",18,3,"Chen",19 };
+	fstream ofs;
+	ofs.open("player.txt", ios::binary | ios::out | ios::in);
+	if (!ofs) {
+		cerr << "open failed!" << endl;
+		abort();
+	}
+	for (int i = 0; i < 3; i++) {
+		ofs.write((char*)&pla[i], sizeof(pla[i]));
+	}
+	Player play[3];
+	for (int i = 0; i < 3; i+=2) {
+		ofs.seekg(i * sizeof(pla[i]), ios::beg);
+		ofs.read((char*)&play[i / 2], sizeof(play[0]));
+		cout <<play[i / 2].number << " " << play[i / 2].name << " " << play[i / 2].age << endl;
+	}
+	cout << endl << "Revise:" << endl;
+	play[2].number = 2;
+	strcpy_s(play[2].name, "Wang");
+	ofs.seekp(2 * sizeof(play[0]), ios::beg);
+	ofs.write((char*)&play[2], sizeof(play[2]));
+	ofs.seekg(0, ios::beg);
+	for (int i = 0; i < 3; i++) {
+		ofs.read((char*)&play[i], sizeof(play[i]));
+	}
+	for (int i = 0; i < 3; i++) {
+		cout << "player" << i << endl;
+		cout << "Number:" << play[i].number << endl;
+		cout << "Name:" << play[i].name << endl;
+		cout << "Age:" << play[i].age << endl;
+	}
+	ofs.close();
+	return 0;
+}
