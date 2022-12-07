@@ -1,0 +1,117 @@
+#include<iostream>
+#include<fstream>
+#include<strstream>
+#include<vector>
+#include<string>
+using namespace std;
+
+class Player;
+class FileOpr {
+public:
+	FileOpr(string name) { filename = name; }
+	void delete_player(int);
+	void update_player(int&,Player&);
+	void insert(Player&);
+private:
+	string filename;
+};
+
+class Player {
+public:
+	Player(){}
+	Player(int i,string nam,int a):index(i),name(nam),age(a){}
+	friend class FileOpr;
+	friend fstream& operator>>(fstream&, Player&);
+	friend fstream& operator<<(fstream&, Player&);
+private:
+	int index;
+	string name;
+	int age;
+};
+
+fstream& operator>>(fstream& f, Player& pl) {
+	f >> pl.index;
+	f.get();
+	f >> pl.name;
+	f.get();
+	f >> pl.age;
+	f.get();
+	return f;
+}
+
+fstream& operator<<(fstream& f, Player& pl) {
+	f << pl.index << "\t" << pl.name << "\t" << pl.age << endl;
+	return f;
+}
+//插入
+void FileOpr::insert(Player& new_player) {
+	fstream fs(filename, ios::app);
+	if (!fs) {
+		cerr << "open failed!" << endl;
+	}
+	fs << new_player;
+}
+
+//更新
+void FileOpr::update_player(int& index,Player& new_player) {
+	vector<Player>vec;
+	fstream fs(filename, ios::in);
+	while (fs.peek() != -1) {
+		Player p;
+		fs >> p;
+		if (index != p.index) {
+			vec.push_back(p);
+		}
+		else {
+			vec.push_back(new_player);
+		}
+	}
+	fs.close();
+	fs.open(filename, ios::out);
+	for (int i = 0; i < vec.size(); i++) {
+		fs << vec[i];
+	}
+	fs.close();
+}
+//删除
+void FileOpr::delete_player(int _index) {
+	vector<Player>vec;
+	fstream fs("player.txt", ios::in);
+	while (fs.peek() != -1) {
+		Player p;
+		fs >> p;
+		if (p.index != _index) {
+			vec.push_back(p);
+		}
+	}
+	fs.close();
+	fs.open("player.txt", ios::out);
+	for (int i = 0; i < vec.size(); i++) {
+		fs << vec[i];	
+	}
+	fs.close();
+}
+
+int main() {
+	Player p[2] = {
+		Player(1, "Li", 20),
+		Player(2, "Yu", 25)
+	};
+	FileOpr f("player.txt");
+	for (int i = 0; i < 2; i++) {
+		f.insert(p[i]);
+	}
+	//更新
+	int index = 2;
+	Player p2 = { 2, "Wang", 30 };
+	f.update_player(index, p2);
+	// 
+	//插入
+	//Player p3 = { 3, "Wang", 30 };
+	//f.insert(p3);
+	
+	//删除
+	/*int index = 2;
+	f.delete_player(index);*/
+	return 0;
+}
