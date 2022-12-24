@@ -1,0 +1,53 @@
+#include<iostream>
+using namespace std;
+
+typedef int elemtype;
+
+struct node {
+	elemtype data;
+	struct node* next;
+};
+
+int i;
+
+struct node* reverse(struct node* pHead) {
+	struct node* pCurrent, * pTemp;
+	pCurrent = pHead->next;
+	pHead->next = NULL;
+	while (pCurrent != NULL) {
+		pTemp = pCurrent;
+		pCurrent = pCurrent->next;
+		pTemp->next = pHead->next;
+		pHead->next = pTemp;
+	}
+	return pHead;
+}
+
+void createList(struct node* pHead, int nums) {
+	struct node* pCurrent;
+	for (i = 1; i <= nums; i++) {
+		pCurrent = (struct node*)malloc(sizeof(struct node));
+		pCurrent->data = i;
+		pCurrent->next = NULL;
+		pHead->next = pCurrent;
+		pHead = pCurrent;
+	}
+}
+
+void showList(struct node* pHead) {
+	while (pHead->next != NULL) {
+		cout << pHead->next->data;
+		pHead = pHead->next;
+	}
+	cout << endl;
+}
+
+int main() {
+	struct node* _pHead = (struct node*)malloc(sizeof(struct node));
+	_pHead->next = NULL;
+	createList(_pHead, 4);
+	showList(_pHead);
+	reverse(_pHead);
+	showList(_pHead);
+	return 0;
+}
